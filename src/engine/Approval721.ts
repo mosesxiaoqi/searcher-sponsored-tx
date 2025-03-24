@@ -23,7 +23,7 @@ const ERC721_ABI = [{
     "type": "bool"
   }],
   "name": "setApprovalForAll",
-  "outputs": [],
+  "outputs": [],   //没有返回值
   "payable": false,
   "stateMutability": "nonpayable",
   "type": "function"
@@ -51,8 +51,8 @@ const ERC721_ABI = [{
 
 
 export class Approval721 extends Base {
-  private _recipient: string;
-  private _contractAddresses721: string[];
+  private _recipient: string;  //存储被授权的地址（即接收 setApprovalForAll 权限的账户）。
+  private _contractAddresses721: string[];  //存储需要授权的多个 ERC-721 合约地址（即 NFT 合约地址）。
 
   constructor(recipient: string, contractAddresses721: string[]) {
     super()
@@ -69,6 +69,7 @@ export class Approval721 extends Base {
     return Promise.all(this._contractAddresses721.map(async (contractAddress721) => {
       const erc721Contract = new Contract(contractAddress721, ERC721_ABI);
       return {
+        //populateTransaction.setApprovalForAll会返回为签名的交易对象
         ...(await erc721Contract.populateTransaction.setApprovalForAll(this._recipient, true)),
         gasPrice: BigNumber.from(0),
       }

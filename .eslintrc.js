@@ -1,7 +1,7 @@
 module.exports = {
     "env": {
-        "browser": true,
-        "es2021": true
+        "browser": true,   // 支持浏览器环境的全局变量
+        "es2021": true     // 支持 ES2021 特性
     },
     "extends": [
         "eslint:recommended",
